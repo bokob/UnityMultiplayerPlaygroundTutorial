@@ -2,6 +2,12 @@
 
 namespace DilmerGames.Core.Singletons
 {
+    /// <summary>
+    /// 네트워크 상관없이 일반적인 싱글톤 패턴 구현할 때 사용,
+    /// GameManager, SoundManager 등에 사용
+    /// NetworkSingleton과 로직 동일
+    /// </summary> 
+    /// <typeparam name="T"></typeparam>
     public class Singleton<T> : MonoBehaviour
         where T : Component
     {

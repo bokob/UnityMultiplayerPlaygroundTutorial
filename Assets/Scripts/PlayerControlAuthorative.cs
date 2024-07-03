@@ -2,6 +2,9 @@ using Unity.Netcode;
 using Unity.Netcode.Samples;
 using UnityEngine;
 
+/// <summary>
+/// PlayerControl과 다른 점은 ClientTransform으로 움직임과 회전을 알아서 처리하게 한다.
+/// </summary>
 [RequireComponent(typeof(NetworkObject))]
 [RequireComponent(typeof(ClientNetworkTransform))]
 public class PlayerControlAuthorative : NetworkBehaviour
@@ -74,7 +77,7 @@ public class PlayerControlAuthorative : NetworkBehaviour
         float forwardInput = Input.GetAxis("Vertical");
         Vector3 inputPosition = direction * forwardInput;
 
-        // change animation states
+        // 애니메이션 상태 변경
         if (forwardInput == 0)
             UpdatePlayerStateServerRpc(PlayerState.Idle);
         else if (!ActiveRunningActionKey() && forwardInput > 0 && forwardInput <= 1)
@@ -88,6 +91,7 @@ public class PlayerControlAuthorative : NetworkBehaviour
             UpdatePlayerStateServerRpc(PlayerState.ReverseWalk);
 
         // client is responsible for moving itself
+        // ClientNetworkTransform 컴포넌트에 의해 클라이언트의 위치와 회전을 동기화하므로 클라이언트가 책임진다.
         characterController.SimpleMove(inputPosition * walkSpeed);
         transform.Rotate(inputRotation * rotationSpeed, Space.World);
     }
